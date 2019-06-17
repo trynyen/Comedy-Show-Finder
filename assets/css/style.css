@@ -5,12 +5,28 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background: rgb(121, 88, 88);
+    border: 2px solid black;
     /* position: absolute; */
 }
 
-.side-navbar {
-    display: block;
+.row {
+    margin: 0;
 }
+
+#side-navbar {
+    width: 20vw;
+    display: block;
+    margin-right: auto;
+}
+
+#results {
+    display: block;
+    margin-left: auto;
+    min-width: 78vw;
+    height: 100vh;
+}
+
+
 
 /* main {
     flex: 1 0 auto;
@@ -30,3 +46,4 @@ footer {
         padding-left: 0;
     }
 } */
+
