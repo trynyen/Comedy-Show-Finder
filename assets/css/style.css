@@ -1,0 +1,28 @@
+ 
+/* MAKES FOOTER STICK TO PAGE */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: rgb(121, 88, 88);
+    position: absolute;
+}
+
+/* main {
+    flex: 1 0 auto;
+} */
+
+/* CSS FORMAT FOR NAV BAR */
+/* header,
+main,
+footer {
+    padding-left: 300px;
+    background: grey;
+}
+@media only screen and (max-width : 992px) {
+    header,
+    main,
+    footer {
+        padding-left: 0;
+    }
+} */
