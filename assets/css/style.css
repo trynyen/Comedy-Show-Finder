@@ -68,6 +68,14 @@ p {
     border-radius: 10px;
 }
 
+#city {
+    color: white;
+}
+
+#comedian {
+    color: white;
+}
+
 
 /* main {
     flex: 1 0 auto;
