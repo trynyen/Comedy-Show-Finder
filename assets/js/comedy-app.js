@@ -79,8 +79,12 @@ $("#submit").click(function (event) {
     }
 });
 
+//When A show Title Link is clicked
+$(document).on('click', '.event-link', function(e) {
+    console.log("clicked");
 
 
+});
 
 // ----------------------------- SIDE NAV BAR INITIALIZATION
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
