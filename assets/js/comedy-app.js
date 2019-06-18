@@ -14,6 +14,7 @@ function search(city, comedian) {
         //If shows are available, display show info
         if (response._embedded != null) {
             for (var i = 0; i < response._embedded.events.length; i++) {
+
                 var eventNameDiv = $("<div>")
                 eventNameDiv.addClass("event-name-div");
 
@@ -22,12 +23,22 @@ function search(city, comedian) {
                 eventName.addClass("event-link");
                 eventNameDiv.append(eventName);
 
+
                 var eventImage = $("<img>").attr("src", response._embedded.events[i].images[0].url);
                 eventImage.addClass("r-img");
-                var eventDate = $("<p>").text("Show date: " + JSON.stringify(response._embedded.events[i].dates.start.localDate));
-                var eventTime = $("<p>").text("Showtime: " + JSON.stringify(response._embedded.events[i].dates.start.localTime));
+
+                //Changed the date format and print event date out on page
+                eventDateFormat = moment(JSON.stringify(response._embedded.events[i].dates.start.localDate), '"YYYY-MM-DD"').format("dddd MMM DD")
+                var eventDate = $("<p>").text("Show date: " + eventDateFormat);
+
+                //Changed the date format and print event date out on page
+                eventTimeFormat = moment(JSON.stringify(response._embedded.events[i].dates.start.localTime), "HH:mm:ss").format("hh:mm A");
+                var eventTime = $("<p>").text("Showtime: " + eventTimeFormat);
+
+                //Store event venue and city in variables
                 var eventVenue = $("<p>").text("Venue: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].name));
                 var eventCity = $("<p>").text("City: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].city.name));
+
                 var eventTicket = $("<button>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
