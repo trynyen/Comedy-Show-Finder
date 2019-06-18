@@ -14,16 +14,23 @@ function search(city, comedian) {
         //If shows are available, display show info
         if (response._embedded != null) {
             for (var i = 0; i < response._embedded.events.length; i++) {
-                var eventName = $("<h2>").text(JSON.stringify(response._embedded.events[i].name));
+                var eventNameDiv = $("<div>")
+                eventNameDiv.addClass("event-name-div");
+
+                var eventName = $("<a>").text(JSON.stringify(response._embedded.events[i].name));
+                eventName.attr("href", "#");
+                eventName.addClass("event-link");
+                eventNameDiv.append(eventName);
+
                 var eventImage = $("<img>").attr("src", response._embedded.events[i].images[0].url);
                 eventImage.addClass("r-img");
                 var eventDate = $("<p>").text("Show date: " + JSON.stringify(response._embedded.events[i].dates.start.localDate));
                 var eventTime = $("<p>").text("Showtime: " + JSON.stringify(response._embedded.events[i].dates.start.localTime));
                 var eventVenue = $("<p>").text("Venue: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].name));
                 var eventCity = $("<p>").text("City: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].city.name));
-                var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
-                eventTicket.text("See Tickets")
-                $("#display").append(eventName, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
+                var eventTicket = $("<button>").attr("href", response._embedded.events[i].url);
+                eventTicket.text("See Tickets").addClass("ticket-url");
+                $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
             }
         }
 

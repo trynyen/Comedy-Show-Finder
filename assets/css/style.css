@@ -9,6 +9,12 @@ body {
     /* position: absolute; */
 }
 
+p {
+    color:white;
+    font-size: 1rem;
+}
+
+
 .row {
     margin: 0;
     background-color: rgb(24,26,27);
@@ -33,11 +39,31 @@ body {
     margin-left: auto;
     min-width: 78vw;
     height: 100vh;
+    padding: 2rem;
 }
 
 .r-img {
     width: 400px;
     height: auto;
+    margin-top: 1.5rem;
+}
+
+.event-name-div {
+    display: block;
+    width: 100%;
+    height: 20px;
+}
+
+.event-link {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 2rem;
+    
+}
+
+.ticket-url {
+    font-size: 2rem;
+    border-radius: 10px;
 }
 
 
