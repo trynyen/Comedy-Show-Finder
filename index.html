@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,24 +26,29 @@
     <nav class="row">
         <!-- ----------------------- TOP NAVBAR -->
         <ul class="right hide-on-med-and-down ">
-                <h4 href="#!">ComedyYou</h4>
+            <h4 href="#!">ComedyYou</h4>
         </ul>
 
         <!-- ----------------------- SIDE NAVBAR -->
-        <ul id="side-navbar" class="sidenav sidenav-fixed">
-            <li><img class="eIsTheBest" src="assets/images/mic.png" alt=""></li>
-            <li><a href="#!">Search Comedian</a></li>
-            <li><a href="#!">Search City</a></li>
-        </ul>
+
     </nav>
 
-    
+    <ul id="side-navbar" class="sidenav sidenav-fixed">
+        <input type="text" placeholder="Comedian" id="comedian">
+        <input type="text" placeholder="City" id="city">
 
-    <div>
-        <img class="materialboxed" width="650" src="assets/images/1.jpg">
+        <button class="btn waves-effect waves-light" type="submit" name="action" id="submit">Submit
+            <i class="material-icons right"></i>
+        </button>
+
+    </ul>
+
+    <div id="results">
+        <div id="display"></div>
+        <!-- <img class="materialboxed" width="650" src="assets/images/1.jpg"> -->
     </div>
-        
-    
+
+
 
 
 
@@ -78,13 +84,13 @@
 
             <li>  
                 <img src="assets/images/1.jpg" alt=""> -->
-                <!-- <div class="caption center-align">
+    <!-- <div class="caption center-align">
                     <h3>This is our big Tagline!</h3>
                     <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
                 </div> -->
-            <!-- </li> -->
-            
-            <!-- <li>
+    <!-- </li> -->
+
+    <!-- <li>
                 <img src="assets/images/1.jpg" alt="">
                 <div class="caption left-align">
                     <h3>Left Aligned Caption</h3>
@@ -108,7 +114,7 @@
                 </div>
             </li> -->
 
-        <!-- </ul>
+    <!-- </ul>
     </div> -->
 
 
@@ -155,4 +161,5 @@
     <script src="assets/js/comedy-app.js"></script>
 
 </body>
+
 </html>
