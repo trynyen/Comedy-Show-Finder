@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Project 1</title>
+</head>
+
+<body>
+
+    <input type="text" id="city" placeholder="city">
+    <input type="text" id="performer" placeholder="performer">
+
+    <button id="submit">Submit</button>
+
+    <div id="display"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        // Seach function by performer and city
+        function search(performerInput, cityInput) {
+            var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=UlelGSzA9lSOeg1ZgZwKBzUyhlQO1CvD&classificationName=comedy&city=" + cityInput + "&keyword=" + performerInput;
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+
+                //If shows are available, display show info
+                if (response._embedded != null) {
+                    for (var i = 0; i < response._embedded.events.length; i++) {
+                        var eventName = $("<h2>").text(JSON.stringify(response._embedded.events[i].name));
+                        var eventImage = $("<img>").attr("src", response._embedded.events[i].images[0].url);
+                        var eventDate = $("<p>").text("Show date: " + JSON.stringify(response._embedded.events[i].dates.start.localDate));
+                        var eventTime = $("<p>").text("Showtime: " + JSON.stringify(response._embedded.events[i].dates.start.localTime));
+                        var eventVenue = $("<p>").text("Venue: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].name));
+                        var eventCity = $("<p>").text("City: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].city.name));
+                        var eventTicket = $("<a>").attr("href",response._embedded.events[i].url);
+                        $("#display").append(eventName, eventImage, eventDate,eventTime, eventVenue, eventCity, eventTicket);
+                    }
+                }
+
+                //If shows are not available, show an alert on page
+                else {
+                    var errorMessage = $("<h2>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
+                    $("#display").append(errorMessage);
+                }
+
+            });
+        };
+
+        //When submit button is clicked
+        $("#submit").click(function (event) {
+
+            //Empty out previous search
+            $("#display").empty();
+
+            //Prevent auto submit
+            event.preventDefault();
+
+            //Store City and Performer input into variables
+            var cityInput = $("#city").val().trim();
+            var performerInput = $("#performer").val().trim();
+
+            //If the input search boxes are NOT empty, search function is called
+            if (cityInput !== "" || performerInput !== "") {
+                search(performerInput, cityInput);
+            }
+
+            // If the search boxes are empty, display empty search error message
+            else {
+                var emptySearch = $("<h2>").text("Please enter Performer or City")
+                $("#display").append(emptySearch);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
