@@ -39,7 +39,7 @@ function search(city, comedian) {
                 var eventVenue = $("<p>").text("Venue: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].name));
                 var eventCity = $("<p>").text("City: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].city.name));
 
-                var eventTicket = $("<button>").attr("href", response._embedded.events[i].url);
+                var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
             }
