@@ -1,3 +1,67 @@
+// ----------------------------- FUNCTIONS
+
+
+// Seach function by performer and city
+function search(city, comedian) {
+    var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=UlelGSzA9lSOeg1ZgZwKBzUyhlQO1CvD&classificationName=comedy&city=" + city + "&keyword=" + comedian;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        console.log(response);
+
+        //If shows are available, display show info
+        if (response._embedded != null) {
+            for (var i = 0; i < response._embedded.events.length; i++) {
+                var eventName = $("<h2>").text(JSON.stringify(response._embedded.events[i].name));
+                var eventImage = $("<img>").attr("src", response._embedded.events[i].images[0].url);
+                eventImage.addClass("r-img");
+                var eventDate = $("<p>").text("Show date: " + JSON.stringify(response._embedded.events[i].dates.start.localDate));
+                var eventTime = $("<p>").text("Showtime: " + JSON.stringify(response._embedded.events[i].dates.start.localTime));
+                var eventVenue = $("<p>").text("Venue: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].name));
+                var eventCity = $("<p>").text("City: " + JSON.stringify(response._embedded.events[i]._embedded.venues[0].city.name));
+                var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
+                eventTicket.text("See Tickets")
+                $("#display").append(eventName, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
+            }
+        }
+
+        //If shows are not available, show an alert on page
+        else {
+            var errorMessage = $("<h2>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
+            $("#display").append(errorMessage);
+        }
+
+    });
+};
+
+//When submit button is clicked
+$("#submit").click(function (event) {
+
+    //Empty out previous search
+    $("#display").empty();
+
+    //Prevent auto submit
+    event.preventDefault();
+
+    //Store City and Performer input into variables
+    var city = $("#city").val().trim();
+    var comedian = $("#comedian").val().trim();
+
+    //If the input search boxes are NOT empty, search function is called
+    if (city !== "" || comedian !== "") {
+        search(city, comedian);
+    }
+
+    // If the search boxes are empty, display empty search error message
+    else {
+        var emptySearch = $("<h2>").text("Please enter Performer or City")
+        $("#display").append(emptySearch);
+    }
+});
+
+
 
 
 // ----------------------------- SIDE NAV BAR INITIALIZATION
@@ -23,8 +87,8 @@ var instance = M.Sidenav.getInstance(elem);
 // jQuery Method Calls
 //   You can still use the old jQuery plugin method calls.
 //   But you won't be able to access instance properties.
- $('.sidenav').sidenav('methodName');
- $('.sidenav').sidenav('methodName', paramName);
+$('.sidenav').sidenav('methodName');
+$('.sidenav').sidenav('methodName', paramName);
 
 
 // ----------------------------- SLIDESHOW INITIALIZATION
