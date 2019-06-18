@@ -14,4 +14,4 @@ Make it easier for users to access comedy shows in their area.
 
 
 Identify and prioritize user stories:::
-As a comedy fan, I want, ___to find suitable shows to my needs___ so that I can ____Laugh____ (edited) (edited) 
+As a Joe Roggan fan, I want to find suitable shows near me to learn more about how life works so that I can understand things better 
