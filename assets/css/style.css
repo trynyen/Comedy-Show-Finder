@@ -34,6 +34,13 @@ p {
     border-style: dotted;
 }
 
+#comedian {
+    color:white;
+}
+
+#city {
+    color:white;
+}
 #results {
     display: block;
     margin-left: auto;
