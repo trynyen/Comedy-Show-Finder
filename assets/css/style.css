@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background: rgb(121, 88, 88);
-    border: 2px solid black;
+ 
     /* position: absolute; */
 }
 
