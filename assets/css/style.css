@@ -4,19 +4,28 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: rgb(121, 88, 88);
+    background: rgb(24,26,27);
  
     /* position: absolute; */
 }
 
 .row {
     margin: 0;
+    background-color: rgb(24,26,27);
+    border: 2px, solid;
+    border-color: aqua;
+    border-style: dotted;
+
 }
 
 #side-navbar {
     width: 20vw;
     display: block;
     margin-right: auto;
+    background: rgb(24,26,27);
+    border: 1px, solid;
+    border-color: aqua;
+    border-style: dotted;
 }
 
 #results {
@@ -51,3 +60,14 @@ footer {
     }
 } */
 
+.title {
+   line-height: 50%;
+    color:rg(24,26,27);
+}
+
+.hide-on-med-and-down {
+    background:rgb(236,111,117);
+    margin-right: 10%;
+   border-radius: 10px;
+
+}
