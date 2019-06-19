@@ -56,7 +56,7 @@ p {
 #commedian-info {
     display: none;
     margin-left: auto;
-    min-width: 78vw;
+    width: 78vw;
     height: 100vh;
     padding: 2rem;
 }
@@ -92,7 +92,26 @@ p {
     color: white;
 }
 
+.event-image {
+    width: 400px;
+}
 
+.video-div {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.video {
+    width:400px;
+    height: calc(400px * .56);
+}
+
+.commedian-bio {
+    margin-top: 2rem;
+    width:50%;
+   
+}
 /* main {
     flex: 1 0 auto;
 } */
