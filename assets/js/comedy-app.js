@@ -42,25 +42,32 @@ function search(city, comedian) {
 
                 var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
+
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
+
             }
         }
 
         //If shows are not available, show an alert on page
         else {
-            var errorMessage = $("<h2>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
+            var errorMessage = $("<h4>").text("BUMMER, no show is available at the moment :(")
             $("#display").append(errorMessage);
         }
 
     });
 };
 
+
+
 //When submit button is clicked
 $("#submit").click(function (event) {
+<<<<<<< HEAD
     
 
  
 
+=======
+>>>>>>> 1c333dfb1c7c5eea9b525c0b483743573f294d34
 
     $("#commedian-info").css("display", "none");
     $("#results").css("display", "block");
@@ -76,20 +83,29 @@ $("#submit").click(function (event) {
     var city = $("#city").val().trim();
     var comedian = $("#comedian").val().trim();
 
+
     //If the input search boxes are NOT empty, search function is called
     if (city !== "" || comedian !== "") {
-        search(city, comedian);
+        city = city.replace(/[^\w ]/g, "")
+        comedian = comedian.replace(/[^\w ]/g, "")
+        console.log(city,comedian);
+        $("#city").val(city);
+        $("#comedian").val(comedian);
+        search(city, comedian)
     }
 
     // If the search boxes are empty, display empty search error message
     else {
-        var emptySearch = $("<h2>").text("Please enter Performer or City")
+        var emptySearch = $("<h4>").text("Please enter a valid Performer or City")
         $("#display").append(emptySearch);
     }
-});
+}
+)
+
+
 
 //When A show Title Link is clicked
-$(document).on('click', '.event-link', function(e) {
+$(document).on('click', '.event-link', function (e) {
     console.log("clicked event title");
     $("#results").css("display", "none");
     $("#commedian-info").empty();
@@ -108,9 +124,9 @@ $(document).on('click', '.event-link', function(e) {
     var image = $('<img class="event-image">');
     image.attr("src", eventImageUrl);
     $("#commedian-info").append(image);
-  
+
     var performer = ticketmasterResp[eventNum]._embedded.attractions[0].name;
-    var youtubeSearch = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q='+performer+'+comedy&key=AIzaSyAtIQuhUzQGsQ8yzMwI0uWQdrJAuh4rcl4&type=video&order=viewCount';
+    var youtubeSearch = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=' + performer + '+comedy&key=AIzaSyAtIQuhUzQGsQ8yzMwI0uWQdrJAuh4rcl4&type=video&order=viewCount';
 
 
 
@@ -118,100 +134,87 @@ $(document).on('click', '.event-link', function(e) {
 
 
 
-    var queryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&titles="+subject+"&prop=revisions&rvprop=content&rvslots=main&rvsection=0&origin=*";
+    var queryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=" + subject + "&prop=revisions&rvprop=content&rvslots=main&rvsection=0&origin=*";
 
-    var queryURL2 = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch="+subject+"&origin=*";
+    var queryURL2 = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + subject + "&origin=*";
 
 
     let ast = "*";
 
-    var pageId ='';
+    var pageId = '';
     $.ajax({
-    url: queryURL2,
-    method: 'GET',
-    }).then(function(response) {
-    
-    pageId = response.query.search[0].pageid;
-    console.log(response.query.search[0].pageid)
-
-    $.ajax({
-        url: queryURL,
+        url: queryURL2,
         method: 'GET',
-        }).then(function(response) {
-        console.log(response.query.pages[pageId].revisions[0].slots.main[ast]);
+    }).then(function (response) {
 
-        var commedyGenres, commedyGenres, website;
-        
+        pageId = response.query.search[0].pageid;
+        console.log(response.query.search[0].pageid)
 
-      if(response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("subject")>0) {
-        commedySubjects = response.query.pages[pageId].revisions[0].slots.main[ast].split("subject")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(",");
-        }
+        $.ajax({
+            url: queryURL,
+            method: 'GET',
+        }).then(function (response) {
+            console.log(response.query.pages[pageId].revisions[0].slots.main[ast]);
 
-     if(response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("genre")>0) {
-        commedyGenres = response.query.pages[pageId].revisions[0].slots.main[ast].split("genre")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(",").split("<").join("");
-    }
-
-    if(response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("website")>0) {
-        if(response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("URL|")>0) {
-            console.log("trigger 1");
-            website =  response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("|")[1].split("}")[0];
-            console.log(website);
-        }else if (response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("url|")>0) {
-            website =  response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("|")[1].split("}")[0];
-        } else if (response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("http")>0) {
-            website =  response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("[")[1].split("|")[0];
-        } 
-        
-        // else {
-        //     var website =  response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("[")[1].split("]")[0];
-        // }
-
-      if (website.length > 5) {
-        if(website.indexOf("https://")  < 0  && website.indexOf("http://")  < 0) {
-            website = "https://" +website
-        }
-         var websiteDiv = $("<div>");
-         websiteDiv.html("<h6>Website: </h6>");
-         var websiteLink = $("<a>").attr("href", website);
-         websiteLink.text(website);
-         websiteDiv.append(websiteLink) 
-        $('#commedian-info').append(websiteDiv);
-      }
-    }
-            
-
-      if(commedySubjects.length > 15 && commedyGenres.length > 15){
-        var textDiv = $("<div>");
-        textDiv.addClass("commedian-bio");
-        textDiv.html("<h4>Subjects of Comedy:</h4><p>"+commedySubjects + "</p><h4>Genres:</h4><<p>" + commedyGenres+"</p>");
-        $('#commedian-info').append(textDiv);
-      } else if(commedySubjects.length > 15) {
-        var textDiv = $("<div>");
-        textDiv.addClass("commedian-bio");
-        textDiv.html("<h4>Subjects of Comedy:</h4><p>"+commedySubjects + "</p>");
-      } else if(commedyGenres.length > 15) {
-        var textDiv = $("<div>");
-        textDiv.addClass("commedian-bio");
-        textDiv.html("<h4>Genres:</h4><p>"+commedyGenres + "</p>");
-      }
+            var commedyGenres, commedyGenres, website;
 
 
+            if (response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("subject") > 0) {
+                commedySubjects = response.query.pages[pageId].revisions[0].slots.main[ast].split("subject")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(",");
+            }
+
+            if (response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("genre") > 0) {
+                commedyGenres = response.query.pages[pageId].revisions[0].slots.main[ast].split("genre")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(",").split("<").join("");
+            }
+
+            if (response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("website") > 0) {
+                if (response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("URL|") > 0) {
+                    console.log("trigger 1");
+                    website = response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("|")[1].split("}")[0];
+                    console.log(website);
+                } else if (response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("url|") > 0) {
+                    website = response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("|")[1].split("}")[0];
+                } else if (response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("}")[0].indexOf("http") > 0) {
+                    website = response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("[")[1].split("|")[0];
+                }
+
+                // else {
+                //     var website =  response.query.pages[pageId].revisions[0].slots.main[ast].split("website")[1].split("=")[1].split("[")[1].split("]")[0];
+                // }
+
+                if (website.length > 5) {
+                    if (website.indexOf("https://") < 0 && website.indexOf("http://") < 0) {
+                        website = "https://" + website
+                    }
+                    var websiteDiv = $("<div>");
+                    websiteDiv.html("<h6>Website: </h6>");
+                    var websiteLink = $("<a>").attr("href", website);
+                    websiteLink.text(website);
+                    websiteDiv.append(websiteLink)
+                    $('#commedian-info').append(websiteDiv);
+                }
+            }
 
 
-      //  console.log(response.query.pages[pageId].revisions[0].slots.main[ast].split("subject")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(","));
+            if (commedySubjects.length > 15 && commedyGenres.length > 15) {
+                var textDiv = $("<div>");
+                textDiv.addClass("commedian-bio");
+                textDiv.html("<h4>Subjects of Comedy:</h4><p>" + commedySubjects + "</p><h4>Genres:</h4><<p>" + commedyGenres + "</p>");
+                $('#commedian-info').append(textDiv);
+            } else if (commedySubjects.length > 15) {
+                var textDiv = $("<div>");
+                textDiv.addClass("commedian-bio");
+                textDiv.html("<h4>Subjects of Comedy:</h4><p>" + commedySubjects + "</p>");
+            } else if (commedyGenres.length > 15) {
+                var textDiv = $("<div>");
+                textDiv.addClass("commedian-bio");
+                textDiv.html("<h4>Genres:</h4><p>" + commedyGenres + "</p>");
+            }
 
-      //  response.query.pages[pageId].revisions[0].slots.main[ast].split("| subject")[1].split("=")[1]
-      //  response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("|subject");
 
-      
-    }).catch(function(err) {
-      console.log(err);
-    });
-    
 
-  
-  });
 
+<<<<<<< HEAD
   $.ajax({
     url: youtubeSearch,
     method: 'GET'
@@ -224,6 +227,33 @@ $(document).on('click', '.event-link', function(e) {
     $("#commedian-info").append(videoDiv);
   });
 });
+=======
+            //  console.log(response.query.pages[pageId].revisions[0].slots.main[ast].split("subject")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(","));
+
+            //  response.query.pages[pageId].revisions[0].slots.main[ast].split("| subject")[1].split("=")[1]
+            //  response.query.pages[pageId].revisions[0].slots.main[ast].indexOf("|subject");
+
+
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+
+
+    });
+
+    $.ajax({
+        url: youtubeSearch,
+        method: 'GET'
+    }).then(function (response) {
+        var videoDiv = $("<div>");
+        videoDiv.addClass("video-div");
+        var videoId = response.items[0].id.videoId;
+        var iframe = $('<iframe  class ="video" src="https://www.youtube.com/embed/' + videoId + '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+        videoDiv.append(iframe);
+        $("#commedian-info").append(videoDiv);
+    });
+>>>>>>> 1c333dfb1c7c5eea9b525c0b483743573f294d34
 
 $(document).on('click', '.back-button', function(e) {
     console.log("clicked");
@@ -241,6 +271,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Sidenav.init(elems, options);
 });
 
+$(document).on("click", ".goBack", function (event) {
+    event.preventDefault();
+
+    // search(city, comedian);
+})
 
 // ----------------------------- Or with jQuery
 $(document).ready(function () {
