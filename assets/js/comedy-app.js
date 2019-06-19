@@ -58,6 +58,10 @@ function search(city, comedian) {
 //When submit button is clicked
 $("#submit").click(function (event) {
     
+
+ 
+
+
     $("#commedian-info").css("display", "none");
     $("#results").css("display", "block");
 
@@ -89,6 +93,15 @@ $(document).on('click', '.event-link', function(e) {
     console.log("clicked event title");
     $("#results").css("display", "none");
     $("#commedian-info").empty();
+
+    var backButton = $("<button>");
+    backButton.addClass("back-button");
+    backButton.text("go back");
+    var backButtonDiv = $("<div>").addClass("back-button-div");
+    
+    backButtonDiv.append(backButton);
+
+    $("#commedian-info").append(backButtonDiv);
     $("#commedian-info").css("display", "block");
     var eventNum = $(this).attr("data");
     var eventImageUrl = ticketmasterResp[eventNum].images[0].url;
@@ -210,12 +223,14 @@ $(document).on('click', '.event-link', function(e) {
     videoDiv.append(iframe);
     $("#commedian-info").append(videoDiv);
   });
-
-
-
-
-
 });
+
+$(document).on('click', '.back-button', function(e) {
+    console.log("clicked");
+    $("#results").css("display", "block");
+    $("#commedian-info").css("display", "none");
+});
+  
 
 // ----------------------------- SIDE NAV BAR INITIALIZATION
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
