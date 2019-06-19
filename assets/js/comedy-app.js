@@ -41,18 +41,49 @@ function search(city, comedian) {
 
                 var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
-                $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
+                var comedianInfo = $("<p>").text("Find out more").addClass("comedianInfo")
+
+                $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket, comedianInfo);
+
+                //Search movies comedian starred in
+                function searchInfo(comedianInfo) {
+                    var queryURL = "https://api.themoviedb.org/3/search/movie?api_key=59075b67019b2d8b2ca2bc49df095623&query=" + comedianInfo;
+                    $.ajax({
+                        url: queryURL,
+                        method: "GET"
+                    }).then(function (response) {
+                        var goBack = $("<button>").text("GO BACK").addClass("goBack")
+                        $("#display").append(goBack);
+                        for (var i = 0; i < response.results.length; i++) {
+                            console.log(response);
+
+                            var movieTitle = $("<p>").text(JSON.stringify(response.results[i].original_title));
+                            $("#display").append(goBack, movieTitle);
+
+                        }
+                    })
+                }
+
+                //When Find out more button is clicked
+                $(".comedianInfo").click(function (event) {
+                    $("#display").empty();
+                    event.preventDefault();
+                    var comedianInfo = $("#comedian").val().trim();
+                    searchInfo(comedianInfo);
+                })
             }
         }
 
         //If shows are not available, show an alert on page
         else {
-            var errorMessage = $("<h2>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
+            var errorMessage = $("<h4>").text("BUMMER, no show is available at the moment :(")
             $("#display").append(errorMessage);
         }
 
     });
 };
+
+
 
 //When submit button is clicked
 $("#submit").click(function (event) {
@@ -67,17 +98,25 @@ $("#submit").click(function (event) {
     var city = $("#city").val().trim();
     var comedian = $("#comedian").val().trim();
 
+
     //If the input search boxes are NOT empty, search function is called
     if (city !== "" || comedian !== "") {
-        search(city, comedian);
+        city = city.replace(/[^\w ]/g,"")
+        comedian = comedian.replace(/[^\w ]/g,"")
+        $("#city").val(city);
+        $("#comedian").val(comedian);
+        search(city,comedian)
     }
 
     // If the search boxes are empty, display empty search error message
     else {
-        var emptySearch = $("<h2>").text("Please enter Performer or City")
+        var emptySearch = $("<h4>").text("Please enter a valid Performer or City")
         $("#display").append(emptySearch);
     }
-});
+}
+)
+
+
 
 
 
@@ -91,6 +130,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Sidenav.init(elems, options);
 });
 
+$(document).on("click", ".goBack", function (event) {
+    event.preventDefault();
+
+    // search(city, comedian);
+})
 
 // ----------------------------- Or with jQuery
 $(document).ready(function () {
