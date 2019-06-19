@@ -47,31 +47,31 @@ function search(city, comedian) {
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket, comedianInfo);
 
                 //Search movies comedian starred in
-                function searchInfo(comedianInfo) {
-                    var queryURL = "https://api.themoviedb.org/3/search/movie?api_key=59075b67019b2d8b2ca2bc49df095623&query=" + comedianInfo;
-                    $.ajax({
-                        url: queryURL,
-                        method: "GET"
-                    }).then(function (response) {
-                        var goBack = $("<button>").text("GO BACK").addClass("goBack")
-                        $("#display").append(goBack);
-                        for (var i = 0; i < response.results.length; i++) {
-                            console.log(response);
+                // function searchInfo(comedianInfo) {
+                //     var queryURL = "https://api.themoviedb.org/3/search/movie?api_key=59075b67019b2d8b2ca2bc49df095623&query=" + comedianInfo;
+                //     $.ajax({
+                //         url: queryURL,
+                //         method: "GET"
+                //     }).then(function (response) {
+                //         var goBack = $("<button>").text("GO BACK").addClass("goBack")
+                //         $("#display").append(goBack);
+                //         for (var i = 0; i < response.results.length; i++) {
+                //             console.log(response);
 
-                            var movieTitle = $("<p>").text(JSON.stringify(response.results[i].original_title));
-                            $("#display").append(goBack, movieTitle);
+                //             var movieTitle = $("<p>").text(JSON.stringify(response.results[i].original_title));
+                //             $("#display").append(goBack, movieTitle);
 
-                        }
-                    })
-                }
+                //         }
+                //     })
+                // }
 
-                //When Find out more button is clicked
-                $(".comedianInfo").click(function (event) {
-                    $("#display").empty();
-                    event.preventDefault();
-                    var comedianInfo = $("#comedian").val().trim();
-                    searchInfo(comedianInfo);
-                })
+                // //When Find out more button is clicked
+                // $(".comedianInfo").click(function (event) {
+                //     $("#display").empty();
+                //     event.preventDefault();
+                //     var comedianInfo = $("#comedian").val().trim();
+                //     searchInfo(comedianInfo);
+                // })
             }
         }
 
