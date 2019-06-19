@@ -1,5 +1,14 @@
 // ----------------------------- FUNCTIONS
 let ticketmasterResp;
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.carousel');
+    var options = {
+        // dist : 0,
+        duration: 200
+        // fullWidth : 100
+    }
+    M.Carousel.init(elems, options);
+ });
 
 // Seach function by performer and city
 function search(city, comedian) {
@@ -42,32 +51,25 @@ function search(city, comedian) {
 
                 var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
-
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
-
             }
         }
 
         //If shows are not available, show an alert on page
         else {
-            var errorMessage = $("<h4>").text("BUMMER, no show is available at the moment :(")
+            var errorMessage = $("<h4>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
             $("#display").append(errorMessage);
         }
 
     });
 };
 
-
-
 //When submit button is clicked
 $("#submit").click(function (event) {
-<<<<<<< HEAD
-    
 
- 
+    $("#hideMeBaby").hide();
 
-=======
->>>>>>> 1c333dfb1c7c5eea9b525c0b483743573f294d34
+
 
     $("#commedian-info").css("display", "none");
     $("#results").css("display", "block");
@@ -83,12 +85,12 @@ $("#submit").click(function (event) {
     var city = $("#city").val().trim();
     var comedian = $("#comedian").val().trim();
 
-
     //If the input search boxes are NOT empty, search function is called
     if (city !== "" || comedian !== "") {
+
         city = city.replace(/[^\w ]/g, "")
         comedian = comedian.replace(/[^\w ]/g, "")
-        console.log(city,comedian);
+        console.log(city, comedian);
         $("#city").val(city);
         $("#comedian").val(comedian);
         search(city, comedian)
@@ -96,13 +98,10 @@ $("#submit").click(function (event) {
 
     // If the search boxes are empty, display empty search error message
     else {
-        var emptySearch = $("<h4>").text("Please enter a valid Performer or City")
+        var emptySearch = $("<h4>").text("Please enter Performer or City")
         $("#display").append(emptySearch);
     }
-}
-)
-
-
+});
 
 //When A show Title Link is clicked
 $(document).on('click', '.event-link', function (e) {
@@ -114,7 +113,7 @@ $(document).on('click', '.event-link', function (e) {
     backButton.addClass("back-button");
     backButton.text("go back");
     var backButtonDiv = $("<div>").addClass("back-button-div");
-    
+
     backButtonDiv.append(backButton);
 
     $("#commedian-info").append(backButtonDiv);
@@ -214,20 +213,6 @@ $(document).on('click', '.event-link', function (e) {
 
 
 
-<<<<<<< HEAD
-  $.ajax({
-    url: youtubeSearch,
-    method: 'GET'
-  }).then(function(response) {
-    var videoDiv = $("<div>");
-    videoDiv.addClass("video-div");
-    var videoId = response.items[0].id.videoId;
-    var iframe = $('<iframe  class ="video" src="https://www.youtube.com/embed/'+videoId+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
-    videoDiv.append(iframe);
-    $("#commedian-info").append(videoDiv);
-  });
-});
-=======
             //  console.log(response.query.pages[pageId].revisions[0].slots.main[ast].split("subject")[1].split("=")[1].split("[[").join('').split("]]").join('').split("*").join('').split("{{").join('').split("}}").join('').split("spouse").join('').split("|").join(","));
 
             //  response.query.pages[pageId].revisions[0].slots.main[ast].split("| subject")[1].split("=")[1]
@@ -253,14 +238,14 @@ $(document).on('click', '.event-link', function (e) {
         videoDiv.append(iframe);
         $("#commedian-info").append(videoDiv);
     });
->>>>>>> 1c333dfb1c7c5eea9b525c0b483743573f294d34
+});
 
-$(document).on('click', '.back-button', function(e) {
+$(document).on('click', '.back-button', function (e) {
     console.log("clicked");
     $("#results").css("display", "block");
     $("#commedian-info").css("display", "none");
 });
-  
+
 
 // ----------------------------- SIDE NAV BAR INITIALIZATION
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
@@ -271,11 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Sidenav.init(elems, options);
 });
 
-$(document).on("click", ".goBack", function (event) {
-    event.preventDefault();
-
-    // search(city, comedian);
-})
 
 // ----------------------------- Or with jQuery
 $(document).ready(function () {
