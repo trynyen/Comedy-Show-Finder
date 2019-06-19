@@ -1,5 +1,14 @@
 // ----------------------------- FUNCTIONS
 let ticketmasterResp;
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.carousel');
+    var options = {
+        // dist : 0,
+        duration: 200
+        // fullWidth : 100
+    }
+    M.Carousel.init(elems, options);
+ });
 
 // Seach function by performer and city
 function search(city, comedian) {
@@ -42,25 +51,25 @@ function search(city, comedian) {
 
                 var eventTicket = $("<a>").attr("href", response._embedded.events[i].url);
                 eventTicket.text("See Tickets").addClass("ticket-url");
-
                 $("#display").append(eventNameDiv, eventImage, eventDate, eventTime, eventVenue, eventCity, eventTicket);
-
             }
         }
 
         //If shows are not available, show an alert on page
         else {
-            var errorMessage = $("<h4>").text("BUMMER, no show is available at the moment :(")
+            var errorMessage = $("<h4>").text("BUMMER, the performer you searched doesn't have any shows available at the moment")
             $("#display").append(errorMessage);
         }
 
     });
 };
 
-
-
 //When submit button is clicked
 $("#submit").click(function (event) {
+
+    $("#hideMeBaby").hide();
+
+
 
     $("#commedian-info").css("display", "none");
     $("#results").css("display", "block");
@@ -76,12 +85,12 @@ $("#submit").click(function (event) {
     var city = $("#city").val().trim();
     var comedian = $("#comedian").val().trim();
 
-
     //If the input search boxes are NOT empty, search function is called
     if (city !== "" || comedian !== "") {
+
         city = city.replace(/[^\w ]/g, "")
         comedian = comedian.replace(/[^\w ]/g, "")
-        console.log(city,comedian);
+        console.log(city, comedian);
         $("#city").val(city);
         $("#comedian").val(comedian);
         search(city, comedian)
@@ -89,19 +98,25 @@ $("#submit").click(function (event) {
 
     // If the search boxes are empty, display empty search error message
     else {
-        var emptySearch = $("<h4>").text("Please enter a valid Performer or City")
+        var emptySearch = $("<h4>").text("Please enter Performer or City")
         $("#display").append(emptySearch);
     }
-}
-)
-
-
+});
 
 //When A show Title Link is clicked
 $(document).on('click', '.event-link', function (e) {
     console.log("clicked event title");
     $("#results").css("display", "none");
     $("#commedian-info").empty();
+
+    var backButton = $("<button>");
+    backButton.addClass("back-button");
+    backButton.text("go back");
+    var backButtonDiv = $("<div>").addClass("back-button-div");
+
+    backButtonDiv.append(backButton);
+
+    $("#commedian-info").append(backButtonDiv);
     $("#commedian-info").css("display", "block");
     var eventNum = $(this).attr("data");
     var eventImageUrl = ticketmasterResp[eventNum].images[0].url;
@@ -223,12 +238,14 @@ $(document).on('click', '.event-link', function (e) {
         videoDiv.append(iframe);
         $("#commedian-info").append(videoDiv);
     });
-
-
-
-
-
 });
+
+$(document).on('click', '.back-button', function (e) {
+    console.log("clicked");
+    $("#results").css("display", "block");
+    $("#commedian-info").css("display", "none");
+});
+
 
 // ----------------------------- SIDE NAV BAR INITIALIZATION
 // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
@@ -239,11 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var instances = M.Sidenav.init(elems, options);
 });
 
-$(document).on("click", ".goBack", function (event) {
-    event.preventDefault();
-
-    // search(city, comedian);
-})
 
 // ----------------------------- Or with jQuery
 $(document).ready(function () {
