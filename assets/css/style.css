@@ -31,12 +31,29 @@ p {
     border-right-width: .2mm;
     border-right-color: rgb(236,111,117);
     border-right-style: ridge;
+    text-align: center;
 }
 
+
+#comedian {
+    color:white;
+}
+
+#city {
+    color:white;
+}
 #results {
     display: block;
     margin-left: auto;
     min-width: 78vw;
+    height: 100vh;
+    padding: 2rem;
+}
+
+#commedian-info {
+    display: none;
+    margin-left: auto;
+    width: 78vw;
     height: 100vh;
     padding: 2rem;
 }
@@ -72,7 +89,26 @@ p {
     color: white;
 }
 
+.event-image {
+    width: 400px;
+}
 
+.video-div {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.video {
+    width:400px;
+    height: calc(400px * .56);
+}
+
+.commedian-bio {
+    margin-top: 2rem;
+    width:50%;
+   
+}
 /* main {
     flex: 1 0 auto;
 } */
